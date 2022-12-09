@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os.path import abspath
 
 app = Flask(__name__)
-db_path = abspath('.') + "databases/users.db"
+db_path = abspath('.') + "users.db"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -56,7 +56,7 @@ def check_user():
         # User does not exist
         message = f"Usuario: {username} no esta registrado"
         flash(message)
-        return redirect(uXrl_for("index", message=message))
+        return redirect(url_for("index", message=message))
 
 
 @app.route('/login', methods=['POST'])
