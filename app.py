@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 from random import randint
 from smtplib import SMTP
 from flask_sqlalchemy import SQLAlchemy
@@ -11,24 +11,9 @@ db = SQLAlchemy(app)
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-
-# create the table
-db.create_all()
-
-@app.route('/check-user', methods=['POST'])
-def check_user():
-    username = request.form['username']
-
-    user = User.query.filter_by(username=username).first()
-
-    if user:
-        # User exists
-        return 0
-    else:
-        # User does not exist
-        return 1
 
 
 # genera el codigo numerico de 6 digitos y lo envia por correo
@@ -50,8 +35,24 @@ def send_code(email):
 
 @app.route('/')
 def index():
-
+    # create the table
+    db.create_all()
     return render_template('login.html')
+
+@app.route('/check-user', methods=['POST'])
+def check_user():
+    username = request.form['username']
+
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        # User exists
+        return 0
+    else:
+        # User does not exist
+        message = f"Usuario: {username} no esta registrado"
+        flash(message)
+        return redirect(url_for("index", message=message))
 
 
 @app.route('/login', methods=['POST'])
