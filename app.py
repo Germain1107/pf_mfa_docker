@@ -2,9 +2,13 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 from random import randint
 from smtplib import SMTP
 from flask_sqlalchemy import SQLAlchemy
+from os.path import abspath
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databases/users.db'
+db_path = abspath('.') + "databases/users.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 
 
@@ -35,30 +39,30 @@ def send_code(email):
 
 @app.route('/')
 def index():
-    # create the table
-    db.create_all()
     return render_template('login.html')
 
 @app.route('/check-user', methods=['POST'])
 def check_user():
-    username = request.form['username']
-
-    user = User.query.filter_by(username=username).first()
+    user = None
+    username = None
+    if request.method == 'POST':
+        username = request.form['username']
+        user = User.query.filter_by(username=username).first()
 
     if user:
-        # User exists
-        return 0
+        flash("usuario registrado")
+        return redirect(url_for("index"))
     else:
         # User does not exist
         message = f"Usuario: {username} no esta registrado"
         flash(message)
-        return redirect(url_for("index", message=message))
+        return redirect(uXrl_for("index", message=message))
 
 
 @app.route('/login', methods=['POST'])
 def login():
     # Get the user's email address from the form
-    email = request.form['email']
+    email = request.form['username']
 
     # Generate a code and send it to the user's email
     code = send_code(email)
@@ -102,4 +106,6 @@ def dashboard():
 
 
 if __name__ == "__main__":
+    # create the table
+    # db.create_all()
     app.run(debug=True)
