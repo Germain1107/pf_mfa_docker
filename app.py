@@ -1,27 +1,56 @@
 from flask import Flask, request, render_template, redirect, url_for
 from random import randint
 from smtplib import SMTP
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databases/users.db'
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+
+# create the table
+db.create_all()
+
+@app.route('/check-user', methods=['POST'])
+def check_user():
+    username = request.form['username']
+
+    user = User.query.filter_by(username=username).first()
+
+    if user:
+        # User exists
+        return 0
+    else:
+        # User does not exist
+        return 1
 
 
 # genera el codigo numerico de 6 digitos y lo envia por correo
 def send_code(email):
     code = randint(100000, 999999)
-    message = 'Your authentication code is: {}'.format(code)
+    message = f'Your authentication code is: {code}'
 
     # Send the email with the code using the SMTP library
     with SMTP('smtp.gmail.com', 587) as smtp:
+        __usr = "germainstephens07@gmail.com"
+        __p = "Ger11yeli21"
         smtp.ehlo()
         smtp.starttls()
-        smtp.login('YOUR_EMAIL_ADDRESS', 'YOUR_EMAIL_PASSWORD')
-        smtp.sendmail('YOUR_EMAIL_ADDRESS', email, message)
+        smtp.login(__usr, __p)
+        smtp.sendmail(__usr, email, message)
 
     return code
 
 
 @app.route('/')
 def index():
+
     return render_template('login.html')
 
 
