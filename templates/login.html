@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container col-md-4 offset-md-4">
+  <h1 class="h1">Login Form</h1>
+  <form class="mx-=auto card card-body bg-secondary" method="POST" action="/login">
+    <div class="form-group">
+      <label for="username" class="form-label">Usuario:</label>
+      <input type="text" placeholder="Usuario" class="form-control mb-3" id="username">
+    </div>
+    <div class="form-group">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" class="form-control mb-3" id="email">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary mb-3">Submit</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
