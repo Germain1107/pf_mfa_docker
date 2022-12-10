@@ -1,8 +1,9 @@
-FROM python:3.11-slim
+FROM python:3.11.1-slim-bullseye
 
-WORKDIR app
+WORKDIR /app
 COPY . .
-
+ENV FLASK_DEBUG=0
+ENV FLASK_APP=app
 RUN pip install -r requirements.txt
 
 EXPOSE 5000
