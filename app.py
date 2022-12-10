@@ -29,8 +29,8 @@ class User(db.Model):
 def send_code(email: str) -> int:
     code = randint(100000, 999999)
     __message = f'Tu codigo de autenticacion es: {code}'
-    __sender = "elieceraguilar4@gmail.com"
-    __p = "eqdmoczedtmioaam"
+    __sender = "proyecto.prueba.mail.2022@gmail.com"
+    __p = "fbbdepjnnwywjdlb"
     __port = 465
     __context = ssl.create_default_context()
     __receiver = email
