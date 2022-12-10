@@ -5,10 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 from os.path import abspath
 
 app = Flask(__name__)
-db_path = abspath('.') + "users.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + '/' + db_path
+db_path = abspath('.') + "\\databases\\users.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+app.secret_key = "secre1234"
 db = SQLAlchemy(app)
 
 
@@ -110,5 +110,4 @@ def dashboard():
 
 if __name__ == "__main__":
     # create the table
-    # db.create_all()
     app.run(debug=True)
