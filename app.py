@@ -47,7 +47,7 @@ def send_code(email: str) -> int:
         with smtplib.SMTP_SSL(__smtp_server, __port, context=__context) as smtp:
             smtp.login(__sender, __p)
             smtp.sendmail(__sender, __receiver, mail.as_string())
-        print("mail  enviado")
+        # print("mail  enviado")
     except smtplib.SMTPException:
         flash("error al enviar correo")
 
@@ -92,7 +92,7 @@ def check_user():
 
     email: str = user.email
     session["email"] = email
-    print(session["email"])
+    # print(session["email"])
     return redirect(url_for("login", email=email))
 
 
@@ -125,13 +125,13 @@ def verify_code():
     if code == session_code:
         # If the code is correct, log the user in and redirect them to the dashboard
         session['logged_in'] = True
-        print("sesdsion true")
+        # print("sesdsion true")
         return redirect(url_for('dashboard'))
     else:
         # If the code is incorrect, show an error message
         error = 'Invalid code. Please try again.'
-        print(error)
-        print(f"code={code} session_code={session_code}")
+        # print(error)
+        # print(f"code={code} session_code={session_code}")
         flash(error)
         return render_template('login_with_code.html',username=session["username"])
 
