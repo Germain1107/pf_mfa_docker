@@ -3,8 +3,9 @@ Proyecto final de sistemas operativos. creación de entornos de desarrollo con c
 
 # ejecutar
 '''
-docker build . --tag {docker_user_name}/{nombre_container}:{version}
-docker build run {docker_user_name}/{nombre_container}:{version}
+docker build . --tag germainalvarado/proyecto_final:v1.0.0
+docker run germainalvarado/proyecto_final:v1.0.0
+
 '''
 # abrir el navegador
-<a href="http://127.0.0.1:5000/"> Aplicacion</a>
+<a href="http://127.0.0.1:5000/"> Aplicacion enlace </a>

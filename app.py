@@ -6,7 +6,7 @@ from os.path import abspath
 
 app = Flask(__name__)
 db_path = abspath('.') + "users.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + '/' + db_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -18,6 +18,9 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f'Item {self.username}'
 
 
 # genera el codigo numerico de 6 digitos y lo envia por correo
