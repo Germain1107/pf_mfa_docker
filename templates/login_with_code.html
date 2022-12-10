@@ -1,2 +1,24 @@
 {% extends "base.html" %}
 
+{% block content %}
+{% if message %}
+  <div class="alert">{{ message }}</div>
+{% endif %}
+<div class="container col-md-4 offset-md-4">
+  <h1 class="h1">Login</h1>
+  <form class="mx-=auto card card-body bg-secondary" method="POST" action={{ url_for('verify_code') }}>
+    <div class="form-group">
+      <label for="username" class="form-label" >Usuario:</label>
+      <input type="text" placeholder="" class="form-control mb-3" id="username" name="username" value="{{ username }}" disabled>
+    </div>
+    <div class="form-group">
+      <label for="cod_ver" class="form-label">Codigo de Verificacion:</label>
+      <input type="text" placeholder="000-000" maxlength="6" class="form-control mb-3" id="cod_ver" name="code">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary mb-3">Submit</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
